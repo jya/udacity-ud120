@@ -15,8 +15,15 @@
     
 """
 
-import pickle
+import pickle 
 
-enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "rb"))
+enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "r"))
+filename = "enron"
+outfile = open(filename, "wb")
+pickle.dump(enron_data, outfile)
+outfile.close()
 
-
+count = 0
+for entry in enron_data:
+	if enron_data[entry]["poi"] == True: count += 1
+print count
