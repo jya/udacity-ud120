@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import sys
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
-
+from sklearn.preprocessing import MinMaxScaler
 
 
 
@@ -53,6 +53,12 @@ features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
+# salary, finance_features = targetFeatureSplit(finance_features)
+# scaler = MinMaxScaler()
+# scaler.fit_transform(salary)
+# print scaler.transform([[200000.]])
+# scaler.fit_transform(finance_features)
+# print scaler.transform([[1000000.]])
 
 ### in the "clustering with 3 features" part of the mini-project,
 ### you'll want to change this line to 
@@ -64,13 +70,20 @@ plt.show()
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
-
+from sklearn.cluster import KMeans
+pred = KMeans(n_clusters=2).fit_predict(finance_features)
 
 
 
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file
 try:
-    Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
+    Draw(pred, finance_features, poi, mark_poi=False, name="clusters3.pdf", f1_name=feature_1, f2_name=feature_2)
 except NameError:
     print "no predictions object named pred found, no clusters to plot"
+
+lis = []
+for person in data_dict:
+    lis.append((person, data_dict[person]["salary"]))
+print min(lis, key=lambda t:t[1])
+print max(lis, key=lambda t:t[1])
