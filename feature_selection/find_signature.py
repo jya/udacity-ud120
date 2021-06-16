@@ -2,6 +2,7 @@
 
 import pickle
 import numpy
+from sklearn import tree
 numpy.random.seed(42)
 
 
@@ -38,6 +39,8 @@ labels_train   = labels_train[:150]
 
 
 ### your code goes here
-
+clf = tree.DecisionTreeClassifier()
+clf.fit(features_train, labels_train)
+print clf.score(features_test, labels_test)
 
 
